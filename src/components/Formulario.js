@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Error from "../components/Error";
+import PropTypes from "prop-types";
+
 const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar }) => {
   const [error, guardarError] = useState(false);
   // extraer ciudad y pais
@@ -65,6 +67,12 @@ const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar }) => {
       </div>
     </form>
   );
+};
+
+Formulario.propTypes = {
+  busqueda: PropTypes.object.isRequired,
+  guardarBusqueda: PropTypes.func.isRequired,
+  guardarConsultar: PropTypes.func.isRequired,
 };
 
 export default Formulario;
