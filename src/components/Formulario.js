@@ -1,14 +1,50 @@
-import React from "react";
+import React, { useState } from "react";
 
-const Formulario = () => {
+const Formulario = ({ busqueda, guardarBusqueda, guardarConsultar }) => {
+  const [error, guardarError] = useState(false);
+  // extraer ciudad y pais
+  const { ciudad, pais } = busqueda;
+
+  // colocar datos en el state
+
+  const handleChange = (evt) => {
+    // actualizar el state
+    guardarBusqueda({
+      ...busqueda,
+      [evt.target.name]: evt.target.value,
+    });
+  };
+
+  // enviar datos del formulario
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    if (ciudad.trim() === "" || pais.trim() === "") {
+      guardarError(true);
+      return;
+    }
+
+    guardarError(false);
+    guardarConsultar(true);
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
+      {error ? (
+        <p className="red darken-4 error">Todos los campos son obligatorios</p>
+      ) : null}
       <div className="input-field col s12">
-        <input type="text" name="ciudad" id="ciudad" />
+        <input
+          type="text"
+          name="ciudad"
+          id="ciudad"
+          value={ciudad}
+          onChange={handleChange}
+        />
         <label htmlFor="ciudad">Ciudad:</label>
       </div>
       <div className="input-field col s12">
-        <select name="pais" id="pais">
+        <select name="pais" id="pais" value={pais} onChange={handleChange}>
           <option value="">-- Seleccione un país --</option>
           <option value="US">Estados Unidos</option>
           <option value="MX">México</option>
@@ -19,6 +55,15 @@ const Formulario = () => {
           <option value="PE">Perú</option>
         </select>
         <label htmlFor="pais">País</label>
+      </div>
+      <div className="input-field col s12">
+        <button
+          type="submit"
+          value="Buscar Clima"
+          className="waves-effect waves-light btn-large btn-block yellow accent-4 col s12"
+        >
+          Buscar CLima
+        </button>
       </div>
     </form>
   );
